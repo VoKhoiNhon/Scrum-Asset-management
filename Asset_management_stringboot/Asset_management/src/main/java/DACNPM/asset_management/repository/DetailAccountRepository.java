@@ -1,6 +1,6 @@
-package repository;
+package DACNPM.asset_management.repository;
 
-import model.DetailAccount;
+import DACNPM.asset_management.model.DetailAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DetailAccountRepository extends JpaRepository<DetailAccount,Integer> {

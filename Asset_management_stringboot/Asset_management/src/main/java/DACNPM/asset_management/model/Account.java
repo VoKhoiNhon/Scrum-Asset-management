@@ -1,4 +1,4 @@
-package model;
+package DACNPM.asset_management.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

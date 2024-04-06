@@ -1,6 +1,6 @@
-package repository;
+package DACNPM.asset_management.repository;
 
-import model.Warehouse;
+import DACNPM.asset_management.model.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse,Integer> {

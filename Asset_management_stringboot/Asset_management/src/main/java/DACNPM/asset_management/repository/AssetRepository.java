@@ -1,8 +1,15 @@
-package repository;
+package DACNPM.asset_management.repository;
 
-import model.Asset;
+import DACNPM.asset_management.model.Asset;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface AssetRepository extends JpaRepository<Asset,Integer> {
 
+    @Query(value="SELECT * from asset",nativeQuery=true)
+    List<Asset> getAllAs();
 }

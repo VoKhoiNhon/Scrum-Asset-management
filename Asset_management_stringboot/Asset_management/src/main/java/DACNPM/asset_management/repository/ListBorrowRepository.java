@@ -1,6 +1,6 @@
-package repository;
+package DACNPM.asset_management.repository;
 
-import model.ListBorrow;
+import DACNPM.asset_management.model.ListBorrow;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ListBorrowRepository extends JpaRepository<ListBorrow,Integer> {

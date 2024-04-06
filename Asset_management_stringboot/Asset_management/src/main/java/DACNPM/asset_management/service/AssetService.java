@@ -1,20 +1,24 @@
-package service;
+package DACNPM.asset_management.service;
 
 import jakarta.annotation.Resource;
-import model.Asset;
+import DACNPM.asset_management.model.Asset;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.stereotype.Service;
-import repository.AssetRepository;
+import DACNPM.asset_management.repository.AssetRepository;
 
 import java.util.List;
 
 @Service
 public class AssetService {
-    @Resource
+    @Autowired
     AssetRepository assetRepository;
 
     public List<Asset> getAllAssets(){
-        return assetRepository.findAll();
+        return assetRepository.getAllAs();
     }
+
+
 
 
 }
