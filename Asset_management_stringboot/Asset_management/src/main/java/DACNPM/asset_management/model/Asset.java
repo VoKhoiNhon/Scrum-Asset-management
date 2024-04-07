@@ -18,7 +18,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Table(name="asset")
 public class Asset {
-
     @Id
     @Column(name="id_asset")
     private int idAsset;
@@ -36,11 +35,10 @@ public class Asset {
     private int purchasePrice;
 
 
-
     @Column(name="date_purchase")
     private Date datePurchase;
 
-    @Column(name="id_type")
-    private int idType;
+    @Column(name="String")
+    private String type;
 
 }
