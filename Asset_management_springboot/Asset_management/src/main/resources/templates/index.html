@@ -414,50 +414,30 @@
                     <td class="border-bottom-0">
                       <p class="mb-0 fw-normal">Real Homes WP Theme</p>
                     </td>
+
+                  <tr th:each="asset : ${model}">
                     <td class="border-bottom-0">
-                      <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
-                      </div>
+                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.idAsset}"></h6>
                     </td>
                     <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
-                    <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
-                      <span class="fw-normal">Project Manager</span>
+                      <h6 class="fw-semibold mb-1" th:text="${asset.assetName}"></h6>
+                      <!--                      <span class="fw-normal">Web Designer</span>-->
                     </td>
                     <td class="border-bottom-0">
-                      <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
+                      <p class="mb-0 fw-normal" th:text="${asset.description}"></p>
                     </td>
                     <td class="border-bottom-0">
                       <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-danger rounded-3 fw-semibold">High</span>
+                        <span class="badge bg-primary rounded-3 fw-semibold" th:text="${asset.status}"></span>
                       </div>
                     </td>
                     <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
-                    <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
-                      <span class="fw-normal">Frontend Engineer</span>
+                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.purchasePrice}"></h6>
                     </td>
                     <td class="border-bottom-0">
-                      <p class="mb-0 fw-normal">Hosting Press HTML</p>
+                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.datePurchase}"></h6>
                     </td>
-                    <td class="border-bottom-0">
-                      <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                      </div>
-                    </td>
-                    <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
-                    </td>
+
                   </tr>
                   </tbody>
                 </table>

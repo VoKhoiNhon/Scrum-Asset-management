@@ -20,6 +20,7 @@ public class AssetService {
     }
     public Asset addNewAsset(Asset asset){
         return assetRepository.save(asset);
+        return assetRepository.findAll();
     }
 
     public void updateAsset(int id,Asset updatedAsset) throws Exception {
