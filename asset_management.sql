@@ -3,36 +3,19 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100418 (10.4.18-MariaDB)
+ Source Server Version : 100432 (10.4.32-MariaDB)
  Source Host           : localhost:3306
  Source Schema         : asset_management
 
  Target Server Type    : MySQL
- Target Server Version : 100418 (10.4.18-MariaDB)
+ Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 06/04/2024 20:21:22
+ Date: 07/04/2024 14:10:25
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for account
--- ----------------------------
-DROP TABLE IF EXISTS `account`;
-CREATE TABLE `account`  (
-  `id_account` int NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `role` int NOT NULL COMMENT '0: manager; 1 employee',
-  PRIMARY KEY (`id_account`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of account
--- ----------------------------
-INSERT INTO `account` VALUES (1, '123', 0);
-INSERT INTO `account` VALUES (2, '123', 1);
 
 -- ----------------------------
 -- Table structure for acount
@@ -62,13 +45,12 @@ CREATE TABLE `asset`  (
   `date_purchase` datetime(6) NULL DEFAULT NULL,
   `id_type` int NULL DEFAULT NULL,
   PRIMARY KEY (`id_asset`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of asset
 -- ----------------------------
-INSERT INTO `asset` VALUES (1, 'Ban vuong', 'ban ', 1, 100000, '2024-04-16 17:17:27.000000', 1);
-INSERT INTO `asset` VALUES (2, 'Ghe nho', 'ghe ', 0, 20000, '2024-04-23 17:17:17.000000', 2);
+INSERT INTO `asset` VALUES (1, 'ban', 'ban', 0, 10000000, '2024-04-17 00:00:00.000000', 1);
 
 -- ----------------------------
 -- Table structure for detail_account
@@ -92,9 +74,9 @@ CREATE TABLE `detail_account`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `list_borrow`;
 CREATE TABLE `list_borrow`  (
-  `id_account` int NULL DEFAULT NULL,
+  `id_account` int NOT NULL,
   `id_asset` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `borrow_date` datetime NULL DEFAULT NULL,
+  `borrow_date` datetime NOT NULL,
   `return_date` datetime NULL DEFAULT NULL,
   `quantity` int NULL DEFAULT NULL,
   `status` int NULL DEFAULT NULL
@@ -103,10 +85,6 @@ CREATE TABLE `list_borrow`  (
 -- ----------------------------
 -- Records of list_borrow
 -- ----------------------------
-INSERT INTO `list_borrow` VALUES (1, '1', '2024-04-17 15:36:04', NULL, NULL, NULL);
-INSERT INTO `list_borrow` VALUES (2, '2', '2024-04-18 15:36:25', NULL, NULL, NULL);
-INSERT INTO `list_borrow` VALUES (1, '2', '2024-04-23 15:36:42', NULL, NULL, NULL);
-INSERT INTO `list_borrow` VALUES (NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for type
@@ -137,5 +115,100 @@ CREATE TABLE `warehouse`  (
 -- ----------------------------
 -- Records of warehouse
 -- ----------------------------
+
+-- ----------------------------
+-- Procedure structure for checkLogin
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `checkLogin`;
+delimiter ;;
+CREATE PROCEDURE `checkLogin`(IN `ID` INT, IN `Pass` VARCHAR(255))
+BEGIN
+    DECLARE rowCount INT;
+    
+    -- Check if ID and Pass parameters are not null
+    IF ID IS NULL OR Pass IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID and Pass parameters cannot be null';
+    END IF;
+
+    -- Count the number of rows with matching ID and Pass
+    SELECT COUNT(*) INTO rowCount
+    FROM account
+    WHERE account.id_account = ID AND account.password = Pass;
+
+    -- If no matching record found, return an error
+    IF rowCount = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid ID or Password';
+    END IF;
+
+    -- If a matching record found, return the result
+    SELECT * FROM account WHERE account.id_account = ID AND account.password = Pass;
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for getAccountInfo
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `getAccountInfo`;
+delimiter ;;
+CREATE PROCEDURE `getAccountInfo`(IN `ID` int)
+BEGIN
+ select * from detail_account WHERE detail_account.id_account= ID;
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for getListBorrow
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `getListBorrow`;
+delimiter ;;
+CREATE PROCEDURE `getListBorrow`()
+BEGIN
+    -- Select the list of borrowed assets for all users
+    SELECT d.id_account, d.last_name, d.first_name, t.`value` AS asset_type, a.asset_name, SUM(l.quantity) AS total_borrowed
+    FROM detail_account d
+    INNER JOIN list_borrow l ON d.id_account = l.id_account
+    INNER JOIN asset a ON l.id_asset = a.id_asset
+    INNER JOIN type t ON a.id_type = t.id_type
+    WHERE l.return_date IS NULL 
+    GROUP BY d.id_account, l.id_asset;
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for getListBorrowOfUser
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `getListBorrowOfUser`;
+delimiter ;;
+CREATE PROCEDURE `getListBorrowOfUser`(IN `ID` VARCHAR(255))
+BEGIN
+    -- Declare variables to hold user details
+    DECLARE user_last_name VARCHAR(255);
+    DECLARE user_first_name VARCHAR(255);
+
+    -- Fetch user details
+    SELECT last_name, first_name INTO user_last_name, user_first_name
+    FROM detail_account
+    WHERE id_account = ID;
+
+    -- Select the list of borrowed assets for the user
+    SELECT d.id_account, user_last_name, user_first_name, t.`value` AS asset_type, a.asset_name, SUM(l.quantity) AS total_borrowed
+    FROM detail_account d
+    INNER JOIN list_borrow l ON d.id_account = l.id_account
+    INNER JOIN asset a ON l.id_asset = a.id_asset
+    INNER JOIN type t ON a.id_type = t.id_type
+    WHERE l.return_date IS NULL AND d.id_account = ID
+    GROUP BY d.id_account, l.id_asset;
+
+END
+;;
+delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
