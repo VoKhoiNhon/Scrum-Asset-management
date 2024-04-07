@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface AssetRepository extends JpaRepository<Asset,Integer> {
 
-    @Query(value="SELECT * from asset",nativeQuery=true)
-    List<Asset> getAllAs();
+
 }

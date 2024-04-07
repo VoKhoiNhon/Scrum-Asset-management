@@ -15,9 +15,8 @@ public class AssetService {
     AssetRepository assetRepository;
 
     public List<Asset> getAllAssets(){
-        return assetRepository.getAllAs();
+        return assetRepository.findAll();
     }
-
 
 
 
