@@ -21,9 +21,9 @@ public class Warehouse {
     private int idAsset;
 
     @Column(name="stock_quantity")
-    private String stockQuantity;
+    private int stockQuantity;
 
     @Column(name="unavailable_quantity")
-    private String unavailableQuantity;
+    private int unavailableQuantity;
 
 }
