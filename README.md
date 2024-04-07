@@ -1,2 +1,2 @@
-# Scrum_Asset_managerment
+# Scrum_Asset_management
  
