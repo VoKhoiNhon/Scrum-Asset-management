@@ -23,26 +23,23 @@
                             <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
                                 <img src="../assets/images/logos/dark-logo.svg" width="180" alt="">
                             </a>
-                            <p class="text-center">Your Social Campaigns</p>
+                            <p th:if="${session.error}" class="alert alert-danger" role="alert"
+                               th:text="${session.error}" id="error-message"></p>
                             <form method="post" action="#" th:action="@{/checkLogin}" th:object="${account}">
                                 <div class="mb-3">
                                     <label class="form-label">ID</label>
-                                    <input type="text" pattern="[1-9]*" inputmode="numeric" class="form-control" id="id_account" name="id_account"
+                                    <input type="text" pattern="[1-9]*" maxlength="6" inputmode="numeric"
+                                           class="form-control" id="id_account" name="id_account"
                                            th:field="*{id_account}">
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password"
-                                           th:field="*{password}">
+                                           th:field="*{password}" maxlength="12" minlength="8">
                                 </div>
                                 <button href="templates/index.html" type="submit"
                                         class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In
                                 </button>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <p class="fs-4 mb-0 fw-bold">New to Modernize?</p>
-                                    <a class="text-primary fw-bold ms-2" href="./authentication-register.html">Create an
-                                        account</a>
-                                </div>
                             </form>
                         </div>
                     </div>
@@ -51,6 +48,16 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('click', function(event) {
+        // Kiểm tra nếu người dùng nhấn vào bất kỳ đâu trên trang
+        if (event.target.id !== 'id_account') {
+            const errorMessage = document.getElementById('error-message');
+            // Ẩn #error-message
+            errorMessage.style.display = 'none';
+        }
+    });
+</script>
 <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
