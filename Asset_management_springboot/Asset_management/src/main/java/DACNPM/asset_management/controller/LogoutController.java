@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class LogoutController {
     @GetMapping("/logout")
     public String logout(Model model, HttpSession session) {
+        if (session.getAttribute("loggedInAccount") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("account", new Account());
+        session.removeAttribute("error");
         session.removeAttribute("loggedInAccount");
         return "authentication-login";
     }

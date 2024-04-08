@@ -28,14 +28,22 @@ public class SignInController {
     }
 
     @PostMapping("/checkLogin")
-    public String checkLogin(@RequestParam("id_account") int id_account, @RequestParam("password") String password, HttpSession session) {
-        Account account = signInService.checkLogin(id_account, password);
-        if (account != null) {
-            // Thêm loggedInAccount vào session
-            session.setAttribute("loggedInAccount", account);
-            // In ra hoặc log thông tin của loggedInAccount
-            System.out.println("loggedInAccount: " + account);
+    public String checkLogin(Model model, @RequestParam("id_account") int id_account, @RequestParam("password") String password, HttpSession session) {
+        try {
+            Account account = signInService.checkLogin(id_account, password);
+            if (account != null) {
+                // Thêm loggedInAccount vào session
+                session.removeAttribute("error");
+                session.setAttribute("loggedInAccount", account);
+                return "redirect:/home";
+            } else {
+                session.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+                return "redirect:/login";
+            }
+        } catch (Exception ex) {
+            session.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+            return "redirect:/login";
         }
-        return "redirect:/home";
+
     }
 }
