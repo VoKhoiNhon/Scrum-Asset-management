@@ -31,7 +31,7 @@ public class SignUpService {
     public void register(DetailAccount da, Account acc) {
         int userId = generateUserId();
         da.setIdAccount(userId);
-        acc.setIdAccount(userId);
+        acc.setId_account(userId);
         String userPass = generateRandomPassword(8);
 //        da.setPassword(userPass);
         acc.setPassword(userPass);
