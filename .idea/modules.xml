@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Asset_management_stringboot/Asset_management/Asset_management.iml" filepath="$PROJECT_DIR$/Asset_management_stringboot/Asset_management/Asset_management.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/Scrum-Asset-managerment.iml" filepath="$PROJECT_DIR$/.idea/Scrum-Asset-managerment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Scrum-Asset-management.iml" filepath="$PROJECT_DIR$/.idea/Scrum-Asset-management.iml" />
     </modules>
   </component>
 </project>
