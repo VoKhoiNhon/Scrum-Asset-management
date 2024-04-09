@@ -20,7 +20,7 @@ public class AssetController {
     AssetService assetService;
 
     @GetMapping("/home")
-    public String getAllAsset(@SessionAttribute(name = "loggedInAccount", required = false) Account loggedInAccount, Model model, HttpSession session) {
+    public String getAllAsset(@SessionAttribute(name = "loggedInAccount", required = false) Account loggedInAccount, Model model) {
         if (loggedInAccount == null) {
             return "redirect:/login";
         }

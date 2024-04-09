@@ -12,7 +12,8 @@ public class RegisterController {
     public String showRegistrationForm(@SessionAttribute(name = "loggedInAccount", required = false) Account loggedInAccount, Model model) {
         if (loggedInAccount == null) {
             return "redirect:/login";
-        }        model.addAttribute("account", new Account());
+        }
+        model.addAttribute("account", new Account());
         return "authentication-register";
     }
 

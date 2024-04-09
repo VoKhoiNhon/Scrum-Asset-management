@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for account
 -- ----------------------------
 DROP TABLE IF EXISTS `account`;
-CREATE TABLE `account`  (
+CREATE TABLE `acocunt`  (
   `id_account` int NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `role` int NULL DEFAULT NULL,
@@ -29,12 +29,11 @@ CREATE TABLE `account`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of account
+-- Records of acount
 -- ----------------------------
 
 INSERT INTO account VALUES (921976, 'VE8Nh?&W', 0);
 INSERT INTO account VALUES (938413, 'HF7kd?ID', 1);
-
 -- ----------------------------
 -- Table structure for asset
 -- ----------------------------
@@ -72,8 +71,10 @@ CREATE TABLE `detail_account`  (
 -- ----------------------------
 -- Records of detail_account
 -- ----------------------------
+
 INSERT INTO detail_account VALUES (921976,'Ngan','Nguyen','2000-09-12 00:00:00.000000','nganluvjb@gmail.com',0);
 INSERT INTO detail_account VALUES (938413,'Nhi','Nguyen','2000-07-19 00:00:00.000000','nhi252002@gmail.com',1);
+
 -- ----------------------------
 -- Table structure for list_borrow
 -- ----------------------------
@@ -129,7 +130,7 @@ delimiter ;;
 CREATE PROCEDURE `checkLogin`(IN `ID` INT, IN `Pass` VARCHAR(255))
 BEGIN
     DECLARE rowCount INT;
-    
+
     -- Check if ID and Pass parameters are not null
     IF ID IS NULL OR Pass IS NULL THEN
         SIGNAL SQLSTATE '45000'
