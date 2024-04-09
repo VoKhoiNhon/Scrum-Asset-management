@@ -7,6 +7,8 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.stereotype.Service;
 import DACNPM.asset_management.repository.AssetRepository;
 
+
+
 import java.util.List;
 
 @Service
