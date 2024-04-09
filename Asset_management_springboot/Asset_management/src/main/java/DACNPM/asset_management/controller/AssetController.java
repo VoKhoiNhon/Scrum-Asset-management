@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
@@ -19,7 +20,10 @@ public class AssetController {
     AssetService assetService;
 
     @GetMapping("/home")
-    public String getAllAsset(@SessionAttribute("loggedInAccount") Account loggedInAccount, Model model) {
+    public String getAllAsset(@SessionAttribute(name = "loggedInAccount", required = false) Account loggedInAccount, Model model, HttpSession session) {
+        if (loggedInAccount == null) {
+            return "redirect:/login";
+        }
         List<Asset> listAsset = assetService.getAllAssets();
         model.addAttribute("listAsset", listAsset);
         model.addAttribute("asset", new Asset());
