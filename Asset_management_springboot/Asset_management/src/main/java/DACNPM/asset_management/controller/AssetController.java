@@ -27,10 +27,11 @@ public class AssetController {
 
         return "index";
     }
-//    @GetMapping("/test")
-//    public List<Asset> getAll(){
-//        return assetService.getAllAssets();
-//    }
+    @ResponseBody
+    @GetMapping("/listAsset")
+    public List<Asset> getAll(){
+        return assetService.getAllAssets();
+    }
 
     @PostMapping("/addNewAsset")
     public String addNewAsset(@ModelAttribute("asset") Asset asset) {
