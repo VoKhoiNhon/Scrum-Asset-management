@@ -13,12 +13,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="acount")
+@Table(name="account")
 public class Account {
 
     @Id
     @Column(name="id_account")
-    private int idAccount;
+    private Integer id_account;
 
     @Column(name="password")
     private String password;

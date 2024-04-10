@@ -34,5 +34,54 @@ public class DetailAccount {
     @Column(name="mail")
     private String mail;
 
+    @Column(name="role")
+    private int role;
 
+    public int getIdAccount() {
+        return idAccount;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Date getDayOfBirth() {
+        return dayOfBirth;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setIdAccount(int idAccount) {
+        this.idAccount = idAccount;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDayOfBirth(Date dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setPassword(int role) {
+        this.role = role;
+    }
 }
