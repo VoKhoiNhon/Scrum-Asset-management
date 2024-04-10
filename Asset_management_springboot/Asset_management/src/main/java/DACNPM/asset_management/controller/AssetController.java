@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -27,19 +27,13 @@ public class AssetController {
     TypeService typeService;
 
     @GetMapping("/home")
-    public String getAllAsset(Model model){
+    public String getAllAsset(@SessionAttribute("loggedInAccount") Account loggedInAccount, Model model) {
         List<Asset> listAsset= assetService.getAllAssets();
         List<Type> listType=typeService.getAllType();
-        model.addAttribute("listAsset",listAsset);
-        model.addAttribute("listType",listType);
-        model.addAttribute("asset",new Asset());
-
-    public String getAllAsset(@SessionAttribute("loggedInAccount") Account loggedInAccount, Model model) {
-        List<Asset> listAsset = assetService.getAllAssets();
         model.addAttribute("listAsset", listAsset);
+        model.addAttribute("listType",listType);
         model.addAttribute("asset", new Asset());
         model.addAttribute("loggedInAccount", loggedInAccount);
-
         return "index";
     }
     @ResponseBody
@@ -50,7 +44,6 @@ public class AssetController {
 
     @PostMapping("/addNewAsset")
     public String addNewAsset(@ModelAttribute("asset")  Asset asset){
-    public String addNewAsset(@ModelAttribute("asset") Asset asset) {
         assetService.addNewAsset(asset);
         return "redirect:/home";
     }
@@ -72,9 +65,8 @@ public class AssetController {
     }
 
 
-    @PostMapping("/updateAsset/{id}")
-    public String updateAsset(@PathVariable("id")int id,@ModelAttribute("asset") Asset asset) throws Exception {
-        assetService.updateAsset(id,asset);
+
+
     @PostMapping("updateAsset/{id}")
     public String updateAsset(@PathVariable("id") int id, @ModelAttribute("asset") Asset asset) throws Exception {
         assetService.updateAsset(id, asset);
@@ -82,8 +74,6 @@ public class AssetController {
     }
 
     @PostMapping("deleteAsset/{id}")
-    public String deleteAsset(@PathVariable("id") int id) {
-        assetService.deleteAsset(id);
     public String deleteAsset(@PathVariable("id")String id){
         assetService.deleteAsset(Integer.parseInt(id));
         return "redirect:/home";
