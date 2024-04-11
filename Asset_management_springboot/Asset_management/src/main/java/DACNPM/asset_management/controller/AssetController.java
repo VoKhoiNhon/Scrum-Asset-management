@@ -11,7 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+<<<<<<< HEAD
+import jakarta.servlet.http.HttpSession;
+import org.springframework.validation.BindingResult;
+=======
 
+>>>>>>> main
 
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +32,22 @@ public class AssetController {
     TypeService typeService;
 
     @GetMapping("/home")
+<<<<<<< HEAD
+    public String getAllAsset(@SessionAttribute(name = "loggedInAccount", required = false) Account loggedInAccount, Model model) {
+        if (loggedInAccount == null) {
+            return "redirect:/login";
+        }
+<<<<<<< Updated upstream
+        List<Asset> listAsset = assetService.getAllAssets();
+=======
+        List<Asset> listAsset= assetService.getAllAssets();
+        List<Type> listType=typeService.getAllType();
+>>>>>>> Stashed changes
+=======
     public String getAllAsset(@SessionAttribute("loggedInAccount") Account loggedInAccount, Model model) {
         List<Asset> listAsset= assetService.getAllAssets();
         List<Type> listType=typeService.getAllType();
+>>>>>>> main
         model.addAttribute("listAsset", listAsset);
         model.addAttribute("listType",listType);
         model.addAttribute("asset", new Asset());

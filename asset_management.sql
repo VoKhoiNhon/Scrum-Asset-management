@@ -18,10 +18,10 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for acount
+-- Table structure for account
 -- ----------------------------
-DROP TABLE IF EXISTS `acount`;
-CREATE TABLE `acount`  (
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE `acocunt`  (
   `id_account` int NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `role` int NULL DEFAULT NULL,
@@ -32,6 +32,8 @@ CREATE TABLE `acount`  (
 -- Records of acount
 -- ----------------------------
 
+INSERT INTO account VALUES (921976, 'VE8Nh?&W', 0);
+INSERT INTO account VALUES (938413, 'HF7kd?ID', 1);
 -- ----------------------------
 -- Table structure for asset
 -- ----------------------------
@@ -62,12 +64,16 @@ CREATE TABLE `detail_account`  (
   `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `day_of_birth` datetime(6) NULL DEFAULT NULL,
   `mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `role` int NULL DEFAULT NULL,
   PRIMARY KEY (`id_account`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of detail_account
 -- ----------------------------
+
+INSERT INTO detail_account VALUES (921976,'Ngan','Nguyen','2000-09-12 00:00:00.000000','nganluvjb@gmail.com',0);
+INSERT INTO detail_account VALUES (938413,'Nhi','Nguyen','2000-07-19 00:00:00.000000','nhi252002@gmail.com',1);
 
 -- ----------------------------
 -- Table structure for list_borrow
@@ -124,7 +130,7 @@ delimiter ;;
 CREATE PROCEDURE `checkLogin`(IN `ID` INT, IN `Pass` VARCHAR(255))
 BEGIN
     DECLARE rowCount INT;
-    
+
     -- Check if ID and Pass parameters are not null
     IF ID IS NULL OR Pass IS NULL THEN
         SIGNAL SQLSTATE '45000'
@@ -175,7 +181,7 @@ BEGIN
     INNER JOIN list_borrow l ON d.id_account = l.id_account
     INNER JOIN asset a ON l.id_asset = a.id_asset
     INNER JOIN type t ON a.id_type = t.id_type
-    WHERE l.return_date IS NULL 
+    WHERE l.return_date IS NULL
     GROUP BY d.id_account, l.id_asset;
 
 END
