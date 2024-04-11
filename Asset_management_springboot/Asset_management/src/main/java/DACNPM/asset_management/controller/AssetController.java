@@ -24,7 +24,12 @@ public class AssetController {
         if (loggedInAccount == null) {
             return "redirect:/login";
         }
+<<<<<<< Updated upstream
         List<Asset> listAsset = assetService.getAllAssets();
+=======
+        List<Asset> listAsset= assetService.getAllAssets();
+        List<Type> listType=typeService.getAllType();
+>>>>>>> Stashed changes
         model.addAttribute("listAsset", listAsset);
         model.addAttribute("asset", new Asset());
         model.addAttribute("loggedInAccount", loggedInAccount);

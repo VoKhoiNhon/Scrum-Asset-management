@@ -250,12 +250,69 @@
         </div>
       </div>
     </div>
+<<<<<<< Updated upstream
   </div>
   <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/sidebarmenu.js"></script>
   <script src="../assets/js/app.min.js"></script>
   <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+=======
+</div>
+<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $.ajax({
+            url: '/listAsset',
+            type: 'GET',
+            dataType: 'json',
+            success: function(assets) {
+                console.log(assets); // Kiểm tra dữ liệu trả về
+                var select = $('#disabledSelect');
+                $.each(assets, function(index, asset) {
+                    select.append($('<option></option>').attr('value', asset.idAsset).text(asset.assetName));
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText); // Log responseText để kiểm tra lỗi
+                alert('Đã xảy ra lỗi khi tải danh sách tài sản.');
+            }
+        });
+    });
+
+</script>
+<script th:inline="javascript">
+    // Lấy thẻ form và nút submit theo id
+    var form = document.querySelector('form');
+    var quantityInput = document.getElementById('quantityInput');
+    var submitButton = document.getElementById('submit');
+
+    // Thêm sự kiện 'submit' vào form
+    form.addEventListener('submit', function(event) {
+        // Lấy giá trị của trường số liệu
+        var quantityValue = quantityInput.value;
+        if (quantityValue.trim() == '') {
+            // Ngăn chặn gửi form lên server nếu giá trị không hợp lệ
+            event.preventDefault();
+            // Hiển thị thông báo hoặc thực hiện hành động phù hợp ở đây
+            alert('Vui lòng thêm số lượng');
+        }
+        // Kiểm tra nếu giá trị nhỏ hơn hoặc bằng 1
+        if (parseInt(quantityValue) < 1) {
+            // Ngăn chặn gửi form lên server nếu giá trị không hợp lệ
+            event.preventDefault();
+            // Hiển thị thông báo hoặc thực hiện hành động phù hợp ở đây
+            alert('Vui lòng thêm số lượng');
+        }
+    });
+</script>
+
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/sidebarmenu.js"></script>
+<script src="../assets/js/app.min.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+
+>>>>>>> Stashed changes
 </body>
 
 </html>
