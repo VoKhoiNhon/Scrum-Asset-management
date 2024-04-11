@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -35,10 +36,11 @@ public class Asset {
     private int purchasePrice;
 
 
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     @Column(name="date_purchase")
     private Date datePurchase;
 
-    @Column(name="String")
-    private String type;
+    @Column(name="type_id")
+    private int type;
 
 }

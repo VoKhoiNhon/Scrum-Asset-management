@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> main
 package DACNPM.asset_management.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +23,11 @@ import lombok.Setter;
 public class Type {
     @Id
     @Column(name="type_id")
+<<<<<<< HEAD
     private Integer typeId;
+=======
+    private int typeId;
+>>>>>>> main
 
     @Column(name="type_name")
     private String typeName;
@@ -28,4 +35,7 @@ public class Type {
 
 }
 
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> main

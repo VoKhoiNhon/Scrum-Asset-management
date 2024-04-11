@@ -86,12 +86,71 @@
       margin-right: 30px; /* Khoảng cách giữa các input */
       /*float:inline-start;*/
     }
+    .formbold-input-group input, .formbold-input-group select, .formbold-input-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+     .type-options {
+       display: none;
+     }
+
+    .col-40 {
+      float: left;
+      width: 40%;
+      margin-top: 6px;
+      text-align: left;
+    }
+
+    /* Floating column for inputs: 75% width */
+    .col-60 {
+      float: left;
+      width: 60%;
+      margin-top: 6px;
+    }
+
+    .btn-form {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-form button{
+      margin-left: 5px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
   <!-- js Modal -->
   <script>
     function momodal(){
       document.getElementById("nenmodal-1").classList.toggle("active");
     }
+
+    function updateModal(){
+        var id = button.getAttribute("data-id")
+        document.getElementById("nenmodal-update").classList.toggle("active");
+    }
+        function showOptions() {
+        var typeOptions = document.getElementById("typeOptions");
+        if (typeOptions.style.display === "none") {
+        typeOptions.style.display = "block";
+    } else {
+        typeOptions.style.display = "none";
+    }
+    }
+
+        function displaySelectedValue() {
+        var selectElement = document.getElementById("assetType");
+        var selectedValue = selectElement.options[selectElement.selectedIndex].text;
+        var selectedValueDiv = document.getElementById("selectedValue");
+        selectedValueDiv.textContent = selectedValue;
+        selectedValueDiv.style.display = "block";
+    }
+
   </script>
 </head>
 
@@ -111,6 +170,8 @@
           <i class="ti ti-x fs-8"></i>
         </div>
       </div>
+
+      <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
       <!-- Sidebar navigation-->
       <nav class="sidebar-nav scroll-sidebar" data-simplebar="" >
         <ul id="sidebarnav">
@@ -224,6 +285,9 @@
           </div>
         </div>
       </nav>
+        <!-- Include leftbar fragment -->
+<!--        <th:block th:replace="fragments:: sidebar"></th:block>>-->
+<!--        <div th:replace="fragments :: sidebar"></div>-->
       <!-- End Sidebar navigation -->
     </div>
     <!-- End Sidebar scroll-->
@@ -252,53 +316,80 @@
         <!-- html modal -->
         <div class="nenmodal"  id="nenmodal-1">
           <div class="nenmodal2" ></div>
-          <div class="container-fluid ndmodal">
+          <div class="container-fluid ndmodal" style="margin-top: 40px">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">Forms</h5>
-                <div class="card">
-                  <div class="card-body">
-                    <!-- <div class="closemodal">
-                      <button onclick="momodal()">×bao</button>
-                    </div> -->
+                  <div class="card-body" style="margin-top: -20px;">
+                    <form method="post" action="#" th:action="@{/addNewAsset}" th:object="${asset}">
+                      <div class="row formbold-input-group">
+                        <div class="col-40">
+                          <label class="formbold-form-label">Asset Name</label>
 
-                      <div class="mb-3">
-                        <div>
-                          <label style="margin-left: -23px;" class="form-label mr-10">Asset name</label>
-                          <label class="form-label mr-10">Status</label>
-                          <label class="form-label mr-10">Price Purchase</label>
-                          <label class="form-label mr-10">Date purchase</label>
-                          <label class="form-label mr-10">Description</label>
                         </div>
-                        <form method="post" action="#" th:action="@{/addNewAsset}" th:object="${asset}">
-                          <div class="input-row">
-                            <input type="text" class="form-control" id="assetName" th:field="*{assetName}">
-<!--                            <input type="text" class="form-control" id="status" th:field="*{status}">-->
+                        <div class="col-60">
+                          <input type="text"  id="assetName" th:field="*{assetName}" placeholder="Enter asset name" class="formbold-form-input"/>
+                        </div>
+                      </div>
+                      <div class="row formbold-input-group">
+                        <div class="col-40">
+                          <label  class="formbold-form-label">Asset Category</label>
+                        </div>
 
-                            <input type="text" class="form-control" id="1" th:field="*{purchasePrice}" >
-                            <input type="text" class="form-control" id="2" th:field="*{datePurchase}" >
-                            <input type="text" class="form-control" id="3" th:field="*{description}" >
+
+
+                        <div class="col-60">
+<!--                          <div id="selectedType" class="formbold-form-select" onclick="showOptions()">Chọn loại</div>-->
+                          <div id="typeOptions" class="type-options" style="display: block">
+                            <select name="occupation" id="assetType" class="formbold-form-select" onchange="displaySelectedValue()">
+                              <option value="" disabled selected hidden>Chọn một loại</option>
+                              <option th:each="type : ${listType}" th:value="${type.typeName}" th:text="${type.typeName}"></option>
+                            </select>
                           </div>
-                          <input type="submit" class="btn btn-success" value="Save"/>
-<!--                          <button type="submit" class="btn btn-primary" >Submit</button>-->
-                        </form>
+                        </div>
+                      </div>
+                      <div class="row formbold-input-group">
+                        <div class="col-40">
+                          <label for="number" class="formbold-form-label">Purchase Price</label>
+                        </div>
+                        <div class="col-60">
+                          <input type="text" name="number" id="number"th:field="*{purchasePrice}" placeholder="Enter the purchrse price of asset" class="formbold-form-input"/>
+                        </div>
+                      </div>
+                      <div class="row formbold-input-group">
+                        <div class="col-40">
+                          <label for="date-purcharse"  class="formbold-form-label">Purchase Date</label>
+                        </div>
+                        <div class="col-60">
+                          <input type="date" name="date-purcharse" th:field="*{datePurchase}" id="date-purcharse"  class="formbold-form-input"/>
+                        </div>
+                      </div>
+                      <div class="row formbold-input-group">
+                        <div class="col-40">
+                          <label for="description" class="formbold-form-label">Description</label>
+                        </div>
+                        <div class="col-60">
+                          <textarea rows="6" name="description" id="description" th:field="*{description}" placeholder="Type the description of asset" class="formbold-form-input"></textarea>
+                        </div>
+                      </div>
+                      <div class="row btn-form">
+                        <button  type="submit" class="col-2 btn btn-success m-1">Success</button>
+                        <button  type="cancel" class="col-2 btn btn-default m-1">Cancel</button>
                       </div>
 
-
+                    </form>
 
                   </div>
-                </div>
               </div>
             </div>
           </div>
-
 
         </div>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
           <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
             <button type="button" class="btn btn-info m-1" onclick="momodal()">Add</button>
-            <button type="button" class="btn btn-warning m-1">Update</button>
-            <button type="button" class="btn btn-danger m-1">Delete</button>
+<!--            <button type="button" class="btn btn-warning m-1">Update</button>-->
+
 
 
             <li class="nav-item dropdown">
@@ -352,9 +443,9 @@
             </div>
           </div>
         </div>
-
       </div>
-      <div class="row">
+
+        <div class="row">
         <div class="col-lg-12 d-flex align-items-stretch">
           <div class="card w-100">
             <div class="card-body p-4">
@@ -388,11 +479,9 @@
                     <td class="border-bottom-0"><h6 class="fw-semibold mb-0"th:text="${asset.idAsset}"></h6></td>
                     <td class="border-bottom-0">
                       <h6 class="fw-semibold mb-1" th:text="${asset.assetName}"></h6>
-                      <span class="fw-normal">Web Designer</span>
                     </td>
                     <td class="border-bottom-0">
                       <h6 class="fw-semibold mb-1" th:text="${asset.type}"></h6>
-                      <span class="fw-normal">Web Designer</span>
                     </td>
                     <td class="border-bottom-0">
                       <p class="mb-0 fw-normal" th:text="${asset.purchasePrice}"></p>
@@ -416,30 +505,30 @@
                       <p class="mb-0 fw-normal">Real Homes WP Theme</p>
                     </td>
 
-                  <tr th:each="asset : ${model}">
-                    <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.idAsset}"></h6>
-                    </td>
-                    <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-1" th:text="${asset.assetName}"></h6>
-                      <!--                      <span class="fw-normal">Web Designer</span>-->
-                    </td>
-                    <td class="border-bottom-0">
-                      <p class="mb-0 fw-normal" th:text="${asset.description}"></p>
-                    </td>
-                    <td class="border-bottom-0">
-                      <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-primary rounded-3 fw-semibold" th:text="${asset.status}"></span>
-                      </div>
-                    </td>
-                    <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.purchasePrice}"></h6>
-                    </td>
-                    <td class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.datePurchase}"></h6>
-                    </td>
+<!--                  <tr th:each="asset : ${model}">-->
+<!--                    <td class="border-bottom-0">-->
+<!--                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.idAsset}"></h6>-->
+<!--                    </td>-->
+<!--                    <td class="border-bottom-0">-->
+<!--                      <h6 class="fw-semibold mb-1" th:text="${asset.assetName}"></h6>-->
+<!--                      &lt;!&ndash;                      <span class="fw-normal">Web Designer</span>&ndash;&gt;-->
+<!--                    </td>-->
+<!--                    <td class="border-bottom-0">-->
+<!--                      <p class="mb-0 fw-normal" th:text="${asset.description}"></p>-->
+<!--                    </td>-->
+<!--                    <td class="border-bottom-0">-->
+<!--                      <div class="d-flex align-items-center gap-2">-->
+<!--                        <span class="badge bg-primary rounded-3 fw-semibold" th:text="${asset.status}"></span>-->
+<!--                      </div>-->
+<!--                    </td>-->
+<!--                    <td class="border-bottom-0">-->
+<!--                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.purchasePrice}"></h6>-->
+<!--                    </td>-->
+<!--                    <td class="border-bottom-0">-->
+<!--                      <h6 class="fw-semibold mb-0 fs-4" th:text="${asset.datePurchase}"></h6>-->
+<!--                    </td>-->
 
-                  </tr>
+<!--                  </tr>-->
                   </tbody>
                 </table>
               </div>

@@ -1,38 +1,52 @@
 package DACNPM.asset_management.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
 @Entity
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="list_borrow")
+@Table(name = "list_borrow")
 public class ListBorrow {
-    @Id
-    @Column(name="id_account")
-    private int idAccount;
+    //    @Id
+//    @Column(name="id_account")
+//    private int idAccount;
+//    @Id
+//    @Column(name="id_asset")
+//    private String idAsset;
+    @EmbeddedId
+    private BorrowId id;
 
-    @Column(name="id_asset")
-    private String idAsset;
-
-    @Column(name="borrow_date")
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "borrow_date")
     private Date borrowDate;
 
-    @Column(name="returnDate")
+    @Column(name = "returnDate")
     private Date returnDate;
 
-    @Column(name="quantity")
-    private int quantity;
+    @Column(name = "quantity")
+    private Integer quantity;
     @Column(name = "status")
-    private int status;
+    private Integer status;
+
+    public ListBorrow(BorrowId id, Integer quantity, Integer status) {
+        this.id = id;
+        this.quantity = quantity;
+        this.status = status;
+    }
+
+    public ListBorrow(BorrowId borrowId) {
+        this.id = borrowId;
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        borrowDate = new Date();
+    }
 }
